@@ -1,0 +1,14 @@
+use dojo::world::IWorldDispatcher;
+
+#[starknet::interface]
+// with land_id, use uuid in contracts
+trait LandInterface<TContractState>{
+    fn register_land(
+        self: @TContractState,
+        world: IWorldDispatcher, 
+        land_name: felt252,
+        chain_id: u8, 
+        height: u8,
+        width: u8,
+    );
+}
