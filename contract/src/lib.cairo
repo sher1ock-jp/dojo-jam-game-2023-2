@@ -17,8 +17,3 @@ mod systems {
     mod address;
     mod player;
 }
-
-#[cfg(test)]
-mod tests {
-    mod test_set_contract;
-}

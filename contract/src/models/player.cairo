@@ -1,6 +1,5 @@
 use starknet::ContractAddress;
 
-// name, pixel history, position(id)
 #[derive(Model, Copy, Drop, Serde)]
 struct Player {
     #[key]
