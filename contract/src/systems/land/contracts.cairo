@@ -10,12 +10,12 @@ mod land_systems{
     impl LandImpl of LandInterface<ContractState>{
         fn register_land(
             self: @ContractState,
-            world: IWorldDispatcher,
             land_name: felt252,
             chain_id: u8,
             height: u8,
             width: u8,
         ){
+            let world = self.world_dispatcher.read();
             let land_id = world.uuid().try_into().unwrap();
             set!(world,(
                 Land{

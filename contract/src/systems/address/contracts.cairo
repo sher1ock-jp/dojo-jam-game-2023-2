@@ -1,22 +1,20 @@
-
-
 #[dojo::contract]
-mod contract_systems{
+mod pixel_address_systems{
 
     use starknet::ContractAddress;
-    use dojogamejam2023::models::contract::{Contract};
-    use dojogamejam2023::systems::contract::interface::{ContractInterface};
+    use dojogamejam2023::models::address::{PixelAddress};
+    use dojogamejam2023::systems::address::interface::{PixelAddressInterface};
 
     #[external(v0)]
-    impl ContractImpl of ContractInterface<ContractState>{
-        fn set_contract(
+    impl PixelAddressImpl of PixelAddressInterface<ContractState>{
+        fn set_pixel_address(
             self: @ContractState,
-            world: IWorldDispatcher,
             pixel_address: ContractAddress,
             pixel_explanation: felt252,
         ){
+            let world = self.world_dispatcher.read();
             set!(world,(
-                    Contract{
+                    PixelAddress{
                         pixel_address: pixel_address,
                         pixel_explanation: pixel_explanation,
                     }
@@ -24,14 +22,14 @@ mod contract_systems{
             );
         }
 
-        fn change_contract_explanation(
+        fn change_pixel_address_explanation(
             self: @ContractState,
-            world: IWorldDispatcher, 
             pixel_address: ContractAddress,
             pixel_explanation: felt252,
         ){
+            let world = self.world_dispatcher.read();
             set!(world,(
-                    Contract{
+                    PixelAddress{
                         pixel_address: pixel_address,
                         pixel_explanation: pixel_explanation,
                     }

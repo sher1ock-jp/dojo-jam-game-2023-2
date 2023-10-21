@@ -9,9 +9,9 @@ mod player_systems{
     impl PlayerImpl of PlayerInterface<ContractState> {
         fn set_player(
             self: @ContractState,
-            world: IWorldDispatcher, 
             player_name: felt252,
         ){
+            let world = self.world_dispatcher.read();
             set!(world,(
                 Player{
                     player_address: starknet::get_caller_address(),
@@ -24,11 +24,10 @@ mod player_systems{
 
         fn move_player(
             self: @ContractState,
-            world: IWorldDispatcher, 
             player_land_position: u8,
             player_pixel_position: u16,
         ){
-
+            let world = self.world_dispatcher.read();
             let mut player = get!(world, starknet::get_caller_address(), Player);
 
             set!(world,(

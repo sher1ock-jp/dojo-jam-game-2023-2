@@ -18,7 +18,6 @@ mod pixel_systems{
     impl PixelImpl of PixelInterface<ContractState> {
         fn set_object_pixel(
             self: @ContractState,
-            world: IWorldDispatcher, 
             land_id: u8,
             pixel_id: u16,
             pixel_connected_land_id: u8,
@@ -30,7 +29,7 @@ mod pixel_systems{
             b: u8,
             a: u8,
         ){
-
+            let world = self.world_dispatcher.read();
             set!(world,(
                 Authorization{
                     land_id: land_id,
@@ -65,12 +64,11 @@ mod pixel_systems{
 
         fn set_road_pixel(
             self: @ContractState,
-            world: IWorldDispatcher, 
             land_id: u8,
             pixel_id: u16,
             pixel_address: ContractAddress,
         ){
-
+            let world = self.world_dispatcher.read();
             set!(world,(
                 Authorization{
                     land_id: land_id,
@@ -100,7 +98,6 @@ mod pixel_systems{
         // not check authorization only for change color
         fn change_pixel_color(
             self: @ContractState,
-            world: IWorldDispatcher, 
             land_id: u8,
             pixel_id: u16,
             r: u8,
@@ -108,7 +105,7 @@ mod pixel_systems{
             b: u8,
             a: u8,
         ){
-
+            let world = self.world_dispatcher.read();
             let mut pixel = get!(world,(land_id,pixel_id),Condition);
             assert(pixel.pixel_nature == PixelNature::Object, "you can't change road color");
 
@@ -130,11 +127,10 @@ mod pixel_systems{
         // hide explanation and address in frontend side
         fn change_pixel_nature_to_road(
             self: @ContractState,
-            world: IWorldDispatcher, 
             land_id: u8,
             pixel_id: u16,
         ){
-
+            let world = self.world_dispatcher.read();
             let mut authorization = get!(world,(land_id,pixel_id),Authorization);
             assert(authorization.creator_address == starknet::get_caller_address(), "you can't change pixel nature to road");
 
@@ -175,7 +171,6 @@ mod pixel_systems{
 
         fn change_pixel_nature_to_object(
             self: @ContractState,
-            world: IWorldDispatcher, 
             land_id: u8,
             pixel_id: u16,
             pixel_explanation: felt252,
@@ -187,7 +182,7 @@ mod pixel_systems{
             b: u8,
             a: u8,
         ){
-
+            let world = self.world_dispatcher.read();
             set!(world,(
                 Authorization{
                     land_id: land_id,
@@ -221,12 +216,11 @@ mod pixel_systems{
 
         fn change_pixel_contract(
             self: @ContractState,
-            world: IWorldDispatcher,
             land_id: u8,
             pixel_id: u16,
             pixel_address: ContractAddress,
         ){
-
+            let world = self.world_dispatcher.read();
             let mut pixel_condition = get!(world,(land_id,pixel_id),Condition);
             assert(pixel_condition.pixel_nature == PixelNature::Object, "you can't change contract of road");
 
@@ -243,13 +237,12 @@ mod pixel_systems{
 
         fn change_pixel_connection(
             self: @ContractState,
-            world: IWorldDispatcher,
             land_id: u8,
             pixel_id: u16,
             pixel_connected_land_id: u8,
             pixel_connected_pixel_id: u16,
         ){
-
+            let world = self.world_dispatcher.read();
             let mut pixel_condition = get!(world,(land_id,pixel_id),Condition);
             assert(pixel_condition.pixel_nature == PixelNature::Object, "you can't change connection of road");
 

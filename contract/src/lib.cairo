@@ -4,7 +4,7 @@ mod models {
     mod authorization;
     mod color;
     mod connection;
-    mod contract;
+    mod address;
     // mod nature;
     mod condition;
     mod land;
@@ -14,13 +14,8 @@ mod models {
 mod systems {
     mod land;
     mod pixel;
-    mod contract;
+    mod address;
     mod player;
-}
-
-mod utils {
-    mod neighbor;
-    mod testing;
 }
 
 #[cfg(test)]
