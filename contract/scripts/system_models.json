@@ -1,0 +1,17 @@
+{ 
+    "LAND_SYSTEMS": [
+        "Land"
+    ],
+    "PIXEL_SYSTEMS": [
+        "Authorization",
+        "Color",
+        "Condition",
+        "Connection"
+    ],
+    "PIXEL_ADDRESS_SYSTEMS": [
+        "PixelAddress"
+    ],
+    "PLAYER_SYSTEMS": [
+        "Player"
+    ]
+}

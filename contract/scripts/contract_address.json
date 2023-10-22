@@ -1,0 +1,14 @@
+{ 
+    "LAND_SYSTEMS": [
+        "0x4bed3c05581373480f49f998d11631d15ebb48b424368b67e748bbc3ffc62bf"
+    ],
+    "PIXEL_SYSTEMS": [
+        "0x5dc958da16c0ab1a87e3eee5c8a7f96ab8fb6d27336eb52e642a29ee14e566e"
+    ],
+    "PIXEL_ADDRESS_SYSTEMS": [
+        "0x22ce035b0cf87016d6fe88f5a4323f0dd166b764697999299e596b1a0797ad5"
+    ],
+    "PLAYER_SYSTEMS": [
+        "0xf8a09caa38cb519fc982b318c0fb510af7084d17eebe1acd574c51a8c5b734"
+    ]
+}
