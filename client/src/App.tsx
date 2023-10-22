@@ -1,46 +1,49 @@
-import './App.css';
 import { useDojo } from './DojoContext';
-import { useComponentValue } from "@dojoengine/react";
 import { Direction, } from './dojo/createSystemCalls'
-import { EntityIndex, setComponent } from '@latticexyz/recs';
+import { useComponentValue } from "@latticexyz/react";
+import { Entity } from '@latticexyz/recs';
 import { useEffect } from 'react';
-import { getFirstComponentByType } from './utils';
-import { Moves, Position } from './generated/graphql';
+import { setComponentsFromGraphQLEntities } from '@dojoengine/utils';
 
 function App() {
   const {
     setup: {
       systemCalls: { spawn, move },
-      components: { Moves, Position },
-      network: { graphSdk, call }
+      components,
+      network: { graphSdk, contractComponents }
     },
     account: { create, list, select, account, isDeploying }
   } = useDojo();
 
+  // extract query
+  const { getEntities } = graphSdk()
+
   // entity id - this example uses the account address as the entity id
-  const entityId = account.address;
+  const entityId = account.address.toString();
 
   // get current component values
-  const position = useComponentValue(Position, parseInt(entityId.toString()) as EntityIndex);
-  const moves = useComponentValue(Moves, parseInt(entityId.toString()) as EntityIndex);
+  const position = useComponentValue(components.Position, entityId as Entity);
+  const moves = useComponentValue(components.Moves, entityId as Entity);
 
+  console.log("position", position);
+
+  // use graphql to current state data
   useEffect(() => {
-
     if (!entityId) return;
 
     const fetchData = async () => {
-      const { data } = await graphSdk.getEntities();
-
-      if (data) {
-        let remaining = getFirstComponentByType(data.entities?.edges, 'Moves') as Moves;
-        let position = getFirstComponentByType(data.entities?.edges, 'Position') as Position;
-
-        setComponent(Moves, parseInt(entityId.toString()) as EntityIndex, { remaining: remaining.remaining })
-        setComponent(Position, parseInt(entityId.toString()) as EntityIndex, { x: position.x, y: position.y })
+      try {
+        const { data } = await getEntities();
+        if (data && data.entities) {
+          setComponentsFromGraphQLEntities(contractComponents, data.entities.edges);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-    }
+    };
+
     fetchData();
-  }, [account.address]);
+  }, [entityId, contractComponents]);
 
 
   return (
@@ -51,13 +54,13 @@ function App() {
         <select onChange={e => select(e.target.value)}>
           {list().map((account, index) => {
             return <option value={account.address} key={index}>{account.address}</option>
-          })}
+          })}i
         </select>
       </div>
       <div className="card">
         <button onClick={() => spawn(account)}>Spawn</button>
         <div>Moves Left: {moves ? `${moves['remaining']}` : 'Need to Spawn'}</div>
-        <div>Position: {position ? `${position['x']}, ${position['y']}` : 'Need to Spawn'}</div>
+        <div>Position: {position ? `${position.vec['x']}, ${position.vec['y']}` : 'Need to Spawn'}</div>
       </div>
       <div className="card">
         <button onClick={() => move(account, Direction.Up)}>Move Up</button> <br />
@@ -65,7 +68,6 @@ function App() {
         <button onClick={() => move(account, Direction.Right)}>Move Right</button> <br />
         <button onClick={() => move(account, Direction.Down)}>Move Down</button>
       </div>
-
     </>
   );
 }

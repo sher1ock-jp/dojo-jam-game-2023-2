@@ -3,14 +3,11 @@ query getEntities {
     edges {
       node {
         keys
-        components {
+        models {
           __typename
-          ... on Moves {
-            remaining
-          }
-          ... on Position {
-            x
-            y
+          ... on Land {
+            land_id
+            pixel_id
           }
         }
       }

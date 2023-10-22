@@ -4,59 +4,116 @@ import { defineComponent, Type as RecsType, World } from "@latticexyz/recs";
 
 export function defineContractComponents(world: World) {
   return {
-    Moves: (() => {
-      const name = "Moves";
+    Authorization: (() => {
+      const name = "Authorization";
       return defineComponent(
         world,
         {
-          remaining: RecsType.Number,
+          creator_address: RecsType.BigInt,
         },
         {
           metadata: {
             name: name,
+            types: ["ContractAddress"],
           },
         }
       );
     })(),
-    Position: (() => {
-      const name = "Position";
+    Color: (() => {
+      const name = "Color";
       return defineComponent(
         world,
         {
-          x: RecsType.Number,
-          y: RecsType.Number,
+          r: RecsType.Number,
+          g: RecsType.Number,
+          b: RecsType.Number,
+          a: RecsType.Number,
         },
         {
           metadata: {
             name: name,
+            types: ["u8","u8","u8","u8"],
           },
         }
       );
     })(),
-    AuthStatus: (() => {
-      const name = "AuthStatus";
+    Connection: (() => {
+      const name = "Connection";
       return defineComponent(
         world,
         {
-          is_authorized: RecsType.Boolean,
+          pixel_connected_land_id: RecsType.Number,
+          pixel_connected_pixel_id: RecsType.Number,
         },
         {
           metadata: {
             name: name,
+            types: ["u8","u16"],
           },
         }
       );
     })(),
-    AuthRole: (() => {
-      const name = "AuthRole";
+    PixelAddress: (() => {
+      const name = "PixelAddress";
       return defineComponent(
         world,
         {
-          id: RecsType.Number,
+          pixel_explanation: RecsType.BigInt,
         },
         {
           metadata: {
             name: name,
+            types: ["felt252"],
+          },
+        }
+      );
+    })(),
+    Condition: (() => {
+      const name = "Condition";
+      return defineComponent(
+        world,
+        {
+          pixel_nature: RecsType.Number,
+          pixel_address: RecsType.BigInt,
+        },
+        {
+          metadata: {
+            name: name,
+            types: ["u8","ContractAddress"],
+          },
+        }
+      );
+    })(),
+    Land: (() => {
+      const name = "Land";
+      return defineComponent(
+        world,
+        {
+          land_id: RecsType.Number,
+          height: RecsType.Number,
+          width: RecsType.Number,
+        },
+        {
+          metadata: {
+            name: name,
+            types: ["u8","u8","u8"],
+          },
+        }
+      );
+    })(),
+    Player: (() => {
+      const name = "Player";
+      return defineComponent(
+        world,
+        {
+          player_name: RecsType.BigInt,
+          player_land_position: RecsType.Number,
+          player_pixel_position: RecsType.Number,
+        },
+        {
+          metadata: {
+            name: name,
+            types: ["felt252","u8","u16"],
           },
         }
       );
