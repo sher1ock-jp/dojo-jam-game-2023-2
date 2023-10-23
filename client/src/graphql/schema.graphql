@@ -7,7 +7,6 @@ query getEntities {
           __typename
           ... on Land {
             land_id
-            pixel_id
           }
         }
       }
