@@ -13,7 +13,5 @@ export function createClientComponents({ contractComponents }: SetupNetworkResul
         Condition: overridableComponent(contractComponents.Condition),
         Land: overridableComponent(contractComponents.Land),
         Player: overridableComponent(contractComponents.Player),
-        //
-        //
     };
 }

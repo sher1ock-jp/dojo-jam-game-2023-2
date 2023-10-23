@@ -1,6 +1,5 @@
 import { GraphQLClient } from 'graphql-request';
-// import { GraphQLClientRequestHeaders } from 'graphql-request/build/cjs/types';
-export type GraphQLClientRequestHeaders = Headers | string[][] | Record<string, string>;
+import { GraphQLClientRequestHeaders } from 'graphql-request/build/cjs/types';
 import { print } from 'graphql'
 import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
@@ -819,7 +818,7 @@ export type SystemEdge = {
 export type GetEntitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetEntitiesQuery = { __typename?: 'Query', entities?: { __typename?: 'EntityConnection', edges?: Array<{ __typename?: 'EntityEdge', node?: { __typename?: 'Entity', keys?: Array<string | null> | null, models?: Array<{ __typename: 'Authorization' } | { __typename: 'Color' } | { __typename: 'Condition' } | { __typename: 'Connection' } | { __typename: 'Land', land_id?: any | null } | { __typename: 'PixelAddress' } | { __typename: 'Player' } | null> | null } | null } | null> | null } | null };
+export type GetEntitiesQuery = { __typename?: 'Query', entities?: { __typename?: 'EntityConnection', edges?: Array<{ __typename?: 'EntityEdge', node?: { __typename?: 'Entity', keys?: Array<string | null> | null, models?: Array<{ __typename: 'Authorization' } | { __typename: 'Color' } | { __typename: 'Condition' } | { __typename: 'Connection' } | { __typename: 'Land', land_id?: any | null, height?: any | null, width?: any | null } | { __typename: 'PixelAddress' } | { __typename: 'Player' } | null> | null } | null } | null> | null } | null };
 
 
 export const GetEntitiesDocument = gql`
@@ -832,6 +831,8 @@ export const GetEntitiesDocument = gql`
           __typename
           ... on Land {
             land_id
+            height
+            width
           }
         }
       }
@@ -847,8 +848,7 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 const GetEntitiesDocumentString = print(GetEntitiesDocument);
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    // Dom.Headers to any for avoding type error
-    getEntities(variables?: GetEntitiesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GetEntitiesQuery; extensions?: any; headers: any; status: number; }> {
+    getEntities(variables?: GetEntitiesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GetEntitiesQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<GetEntitiesQuery>(GetEntitiesDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getEntities', 'query');
     }
   };

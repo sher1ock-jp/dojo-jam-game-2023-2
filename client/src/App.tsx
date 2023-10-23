@@ -1,6 +1,8 @@
 import { useDojo } from './DojoContext';
 import { Direction, } from './dojo/createSystemCalls'
+// @ts-ignore
 import { useComponentValue } from "@latticexyz/react";
+// @ts-ignore
 import { Entity } from '@latticexyz/recs';
 import { useEffect } from 'react';
 import { setComponentsFromGraphQLEntities } from '@dojoengine/utils';
@@ -8,7 +10,7 @@ import { setComponentsFromGraphQLEntities } from '@dojoengine/utils';
 function App() {
   const {
     setup: {
-      systemCalls: { spawn, move },
+      systemCalls: { register_land },
       components,
       network: { graphSdk, contractComponents }
     },
@@ -22,10 +24,9 @@ function App() {
   const entityId = account.address.toString();
 
   // get current component values
-  const position = useComponentValue(components.Position, entityId as Entity);
-  const moves = useComponentValue(components.Moves, entityId as Entity);
+  const land = useComponentValue(components.Land, entityId as Entity);
 
-  console.log("position", position);
+  console.log("land", land);
 
   // use graphql to current state data
   useEffect(() => {
@@ -58,16 +59,14 @@ function App() {
         </select>
       </div>
       <div className="card">
-        <button onClick={() => spawn(account)}>Spawn</button>
-        <div>Moves Left: {moves ? `${moves['remaining']}` : 'Need to Spawn'}</div>
-        <div>Position: {position ? `${position.vec['x']}, ${position.vec['y']}` : 'Need to Spawn'}</div>
+        <button onClick={() => register_land(account,"test_name",1,1,50,50)}>Spawn</button>
       </div>
-      <div className="card">
+      {/* <div className="card">
         <button onClick={() => move(account, Direction.Up)}>Move Up</button> <br />
         <button onClick={() => move(account, Direction.Left)}>Move Left</button>
         <button onClick={() => move(account, Direction.Right)}>Move Right</button> <br />
         <button onClick={() => move(account, Direction.Down)}>Move Down</button>
-      </div>
+      </div> */}
     </>
   );
 }
