@@ -1,7 +1,7 @@
 import { defineContractComponents } from "./contractComponents";
 import { world } from "./world";
-import { RPCProvider, Query, } from "@dojoengine/core";
-import { Account, num } from "starknet";
+import { RPCProvider, Query, getContractByName, getAllSystemNames } from "@dojoengine/core";
+import { Account, AllowArray, Call, num } from 'starknet';
 import { GraphQLClient } from 'graphql-request';
 import { getSdk } from '../generated/graphql';
 import manifest from '../../../contract/target/dev/manifest.json'
@@ -14,6 +14,9 @@ export async function setupNetwork() {
 
     // Create a new RPCProvider instance.
     const provider = new RPCProvider(VITE_PUBLIC_WORLD_ADDRESS, manifest, VITE_PUBLIC_NODE_URL);
+    console.log(provider);
+    console.log(manifest);
+    console.log("getContractByName",getContractByName(manifest,"land_systems"));
 
     // Return the setup object.
     return {
@@ -30,6 +33,12 @@ export async function setupNetwork() {
         execute: async (signer: Account, contract: string, system: string, call_data: num.BigNumberish[]) => {
             return provider.execute(signer, contract, system, call_data);
         },
+
+        // // Execute function.
+        // execute: async (signer: Account, calls: AllowArray<Call>) => {
+        //     const formattedCalls = Array.isArray(calls) ? calls : [calls];
+        //     return provider.executeMulti(signer, formattedCalls);
+        // },
 
         // Entity query function.
         entity: async (component: string, query: Query) => {

@@ -1,5 +1,5 @@
 import { useDojo } from './DojoContext';
-import { Direction, } from './dojo/createSystemCalls'
+// import { Direction, } from './dojo/createSystemCalls'
 // @ts-ignore
 import { useComponentValue } from "@latticexyz/react";
 // @ts-ignore
@@ -16,6 +16,8 @@ function App() {
     },
     account: { create, list, select, account, isDeploying }
   } = useDojo();
+
+  console.log("account", account);
 
   // extract query
   const { getEntities } = graphSdk()
@@ -59,7 +61,7 @@ function App() {
         </select>
       </div>
       <div className="card">
-        <button onClick={() => register_land(account,"test_name",1,1,50,50)}>Spawn</button>
+        <button onClick={() => register_land(account,"test_name",1)}>Spawn</button>
       </div>
       {/* <div className="card">
         <button onClick={() => move(account, Direction.Up)}>Move Up</button> <br />
